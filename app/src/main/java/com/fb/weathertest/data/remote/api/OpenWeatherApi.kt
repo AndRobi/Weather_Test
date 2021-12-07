@@ -2,11 +2,10 @@ package com.fb.weathertest.data.remote.api
 
 import com.fb.weathertest.BuildConfig
 import com.fb.weathertest.data.model.onecall.OneCallResponse
+import com.fb.weathertest.util.DEFAULT_LAT
+import com.fb.weathertest.util.DEFAULT_LON
 import retrofit2.http.GET
 import retrofit2.http.Query
-
-const val DEFAULT_LAT = "47.45709761536959"
-const val DEFAULT_LON = "19.143297539877146"
 
 interface OpenWeatherApi {
     @GET("onecall")

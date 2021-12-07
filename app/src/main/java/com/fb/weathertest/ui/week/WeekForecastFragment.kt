@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.fb.weathertest.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.fb.weathertest.adapter.WeatherForecastAdapter
+import com.fb.weathertest.databinding.FragmentWeekForcastBinding
+import com.fb.weathertest.ui.activity.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -18,17 +21,12 @@ private const val TAG = "WeekForecastFragment"
 class WeekForecastFragment : Fragment() {
 
     val viewModel: WeekForecastViewModel by viewModels()
+    val weatherAdapter = WeatherForecastAdapter()
+
+    lateinit var binding: FragmentWeekForcastBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getWeatherForecast()
-        lifecycleScope.launch {
-            viewModel.forecast.collect {
-                it?.let {
-                    Log.d(TAG, "onCreate: ${it.timeStamp }}")
-                }
-            }
-        }
     }
 
     override fun onCreateView(
@@ -36,6 +34,30 @@ class WeekForecastFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_week_forcast, container, false)
+        binding = FragmentWeekForcastBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.weatherRecyle.apply {
+            adapter = weatherAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+        (activity as MainActivity).locationLiveData.observe(viewLifecycleOwner, {
+            viewModel.getWeatherForecast(it)
+        })
+        lifecycleScope.launch {
+            viewModel.forecast.collect {
+                it?.let {
+                    weatherAdapter.submitList(it.daily)
+                    for (day in it.daily) {
+                        Log.d(TAG, "temperature : ${day.temp.day}}")
+                    }
+                }
+            }
+        }
+        // val action = WeekForecastFragmentDirections.actionWeekForecastFragmentToDetailsFragment("asd")
+        // findNavController().navigate(action)
     }
 }

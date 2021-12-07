@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Weather Test</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="enable_gps">Please enable your GPS and restart!</string>
+    <string name="location_permission">Location Permission</string>
+    <string name="access_location_message">This application needs location permissions to work</string>
+    <string name="gps_required_message">GPS is required for this application to function!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ask_for_permission">Try to set permissions</string>
 </resources>

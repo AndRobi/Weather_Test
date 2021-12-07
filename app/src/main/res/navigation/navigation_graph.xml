@@ -3,11 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/weekForecastFragment">
-
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.fb.weathertest.ui.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_weekForecastFragment"
+            app:destination="@id/weekForecastFragment" />
+    </fragment>
     <fragment
         android:id="@+id/weekForecastFragment"
         android:name="com.fb.weathertest.ui.week.WeekForecastFragment"
         android:label="fragment_week_forcast"
-        tools:layout="@layout/fragment_week_forcast" />
+        tools:layout="@layout/fragment_week_forcast">
+        <action
+            android:id="@+id/action_weekForecastFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.fb.weathertest.ui.details.DetailsFragment"
+        android:label="DetailsFragment">
+        <argument
+            android:name="dt"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

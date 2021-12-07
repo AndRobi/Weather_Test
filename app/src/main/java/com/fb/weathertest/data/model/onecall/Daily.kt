@@ -10,7 +10,7 @@ data class Daily(
     @Json(name = "dew_point")
     val dewPoint: Double,
     @Json(name = "dt")
-    val dt: Int,
+    val dt: Long,
     @Json(name = "feels_like")
     val feelsLike: FeelsLike,
     @Json(name = "humidity")
@@ -26,7 +26,7 @@ data class Daily(
     @Json(name = "pressure")
     val pressure: Int,
     @Json(name = "rain")
-    val rain: Double?,
+    val rain: Double? = null,
     @Json(name = "snow")
     val snow: Double?,
     @Json(name = "sunrise")

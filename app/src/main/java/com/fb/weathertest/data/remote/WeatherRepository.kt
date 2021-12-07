@@ -1,22 +1,23 @@
 package com.fb.weathertest.data.remote
 
-import com.fb.weathertest.data.model.onecall.OneCallResponse
+import com.fb.weathertest.data.db.ForecastDatabase
+import com.fb.weathertest.data.model.location.Cord
 import com.fb.weathertest.data.remote.api.OpenWeatherApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import java.lang.Exception
+import com.fb.weathertest.util.HOUR_TO_MILL
 
-class WeatherRepository(private val openWeatherApi: OpenWeatherApi) {
+class WeatherRepository(
+    private val openWeatherApi: OpenWeatherApi,
+    private val db: ForecastDatabase
+) {
 
-    private val _forecast = MutableStateFlow<OneCallResponse?>(null)
-    val forecast: StateFlow<OneCallResponse?> = _forecast
+    val forecast = db.forecastDao().getForecast()
 
-    suspend fun getAllWeatherData(forceRefresh: Boolean = false): Boolean {
-        return try {
-            _forecast.emit(openWeatherApi.getAllWeather())
-            false
-        } catch (ex: Exception) {
-            true
+    suspend fun getAllWeatherData(cord: Cord, forceRefresh: Boolean = false) {
+        val lastRefreshTime = db.forecastDao().getTimeStamp()
+        if (forceRefresh || lastRefreshTime == null || (lastRefreshTime + HOUR_TO_MILL > System.currentTimeMillis())) {
+            db.forecastDao().deleteForecast()
+            db.forecastDao()
+                .add(openWeatherApi.getAllWeather(cord.lat.toString(), cord.lon.toString()))
         }
     }
 }
