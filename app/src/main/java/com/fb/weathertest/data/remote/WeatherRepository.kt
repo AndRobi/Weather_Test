@@ -14,7 +14,8 @@ class WeatherRepository(
 
     suspend fun getAllWeatherData(cord: Cord, forceRefresh: Boolean = false) {
         val lastRefreshTime = db.forecastDao().getTimeStamp()
-        if (forceRefresh || lastRefreshTime == null || (lastRefreshTime + HOUR_TO_MILL > System.currentTimeMillis())) {
+        val timeDiff = ((lastRefreshTime ?: 0) * 1000) - System.currentTimeMillis()
+        if (forceRefresh || lastRefreshTime == null || 0> timeDiff + HOUR_TO_MILL) {
             db.forecastDao().deleteForecast()
             db.forecastDao()
                 .add(openWeatherApi.getAllWeather(cord.lat.toString(), cord.lon.toString()))

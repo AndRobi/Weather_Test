@@ -18,9 +18,9 @@ data class Daily(
     @Json(name = "moon_phase")
     val moonPhase: Double,
     @Json(name = "moonrise")
-    val moonrise: Int,
+    val moonrise: Long,
     @Json(name = "moonset")
-    val moonset: Int,
+    val moonset: Long,
     @Json(name = "pop")
     val pop: Double,
     @Json(name = "pressure")
@@ -30,9 +30,9 @@ data class Daily(
     @Json(name = "snow")
     val snow: Double?,
     @Json(name = "sunrise")
-    val sunrise: Int,
+    val sunrise: Long,
     @Json(name = "sunset")
-    val sunset: Int,
+    val sunset: Long,
     @Json(name = "temp")
     val temp: Temp,
     @Json(name = "uvi")

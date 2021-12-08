@@ -9,4 +9,14 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ask_for_permission">Try to set permissions</string>
+
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="moonrise">Moonrise</string>
+    <string name="daily_min">Minimum</string>
+    <string name="daily_max">Maximum</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind_speed">Wind Speed</string>
+
 </resources>

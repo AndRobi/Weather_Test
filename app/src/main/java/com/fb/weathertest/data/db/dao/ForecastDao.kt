@@ -18,6 +18,6 @@ interface ForecastDao {
     @Query("DELETE FROM OneCallResponse")
     suspend fun deleteForecast()
 
-    @Query("SELECT timeStamp FROM OneCallResponse LIMIT 1")
+    @Query("SELECT timeStamp FROM OneCallResponse")
     suspend fun getTimeStamp(): Long?
 }

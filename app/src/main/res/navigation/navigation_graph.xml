@@ -28,7 +28,10 @@
         android:label="DetailsFragment">
         <argument
             android:name="dt"
-            app:argType="string" />
+            app:argType="long" />
+        <action
+            android:id="@+id/action_detailsFragment_to_weekForecastFragment"
+            app:popUpTo="@id/weekForecastFragment" />
     </fragment>
 
 </navigation>

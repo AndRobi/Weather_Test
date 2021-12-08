@@ -12,6 +12,7 @@ interface OpenWeatherApi {
     suspend fun getAllWeather(
         @Query("lat")latitude: String = DEFAULT_LAT,
         @Query("lon")longitude: String = DEFAULT_LON,
+        @Query("units") units: String = "metric",
         @Query("appid")apiKey: String = BuildConfig.WEATHER_API_KEY
     ): OneCallResponse
 }

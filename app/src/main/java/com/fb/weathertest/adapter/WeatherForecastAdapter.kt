@@ -11,7 +11,10 @@ import com.fb.weathertest.databinding.WeatherItemBinding
 import com.fb.weathertest.util.WEATHER_IMG_LINK
 import com.fb.weathertest.util.nameOfDay
 
-class WeatherForecastAdapter() : ListAdapter<Daily, WeatherForecastAdapter.WeatherViewHolder>(WeatherForecastDiffCallBack()) {
+class WeatherForecastAdapter : ListAdapter<
+    Daily,
+    WeatherForecastAdapter.WeatherViewHolder>
+(WeatherForecastDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -23,6 +26,9 @@ class WeatherForecastAdapter() : ListAdapter<Daily, WeatherForecastAdapter.Weath
         val day = getItem(position)
         val url = WEATHER_IMG_LINK + day.weather[0].icon + ".png"
         holder.bind(day.dt.nameOfDay(), url)
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(day.dt)
+        }
     }
 
     inner class WeatherViewHolder(private val binding: WeatherItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -54,5 +60,10 @@ class WeatherForecastAdapter() : ListAdapter<Daily, WeatherForecastAdapter.Weath
         ): Boolean {
             return oldItem == newItem
         }
+    }
+
+    private var onItemClickListener: ((dt: Long) -> Unit)? = null
+    fun setOnItemClicked(listener: ((dt: Long) -> Unit)?) {
+        onItemClickListener = listener
     }
 }

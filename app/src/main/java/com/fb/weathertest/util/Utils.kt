@@ -23,8 +23,16 @@ fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()
     formatter.timeZone = timeZone
     return formatter.format(this)
 }
+@Suppress("MagicNumber")
 fun Long.nameOfDay(): String {
     val formatter = SimpleDateFormat("EEEE")
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = this * 1000
+    return formatter.format(calendar.time)
+}
+@Suppress("MagicNumber")
+fun Long.timeOfDay(): String {
+    val formatter = SimpleDateFormat("hh:mm")
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = this * 1000
     return formatter.format(calendar.time)

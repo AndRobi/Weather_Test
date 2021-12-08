@@ -1,13 +1,13 @@
 package com.fb.weathertest.ui.week
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fb.weathertest.adapter.WeatherForecastAdapter
 import com.fb.weathertest.databinding.FragmentWeekForcastBinding
@@ -20,14 +20,11 @@ private const val TAG = "WeekForecastFragment"
 @AndroidEntryPoint
 class WeekForecastFragment : Fragment() {
 
-    val viewModel: WeekForecastViewModel by viewModels()
-    val weatherAdapter = WeatherForecastAdapter()
+    private val viewModel: WeekForecastViewModel by viewModels()
+    private val weatherAdapter = WeatherForecastAdapter()
 
+    private val locationLiveData by lazy { (activity as MainActivity).locationLiveData }
     lateinit var binding: FragmentWeekForcastBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,20 +41,34 @@ class WeekForecastFragment : Fragment() {
             adapter = weatherAdapter
             layoutManager = LinearLayoutManager(context)
         }
-        (activity as MainActivity).locationLiveData.observe(viewLifecycleOwner, {
+        weatherAdapter.setOnItemClicked {
+            day ->
+            locationLiveData.value?.let {
+                viewModel.getWeatherForecast(it, true)
+                val action = WeekForecastFragmentDirections.actionWeekForecastFragmentToDetailsFragment(day)
+                findNavController().navigate(action)
+            }
+        }
+        binding.refreshLayout.apply {
+            setOnRefreshListener {
+                locationLiveData.value?.let {
+                    viewModel.getWeatherForecast(it)
+                }
+                if (locationLiveData.value != null) {
+                    this.isRefreshing = false
+                }
+            }
+        }
+        locationLiveData.observe(viewLifecycleOwner, {
             viewModel.getWeatherForecast(it)
         })
         lifecycleScope.launch {
             viewModel.forecast.collect {
                 it?.let {
                     weatherAdapter.submitList(it.daily)
-                    for (day in it.daily) {
-                        Log.d(TAG, "temperature : ${day.temp.day}}")
-                    }
+                    binding.refreshLayout.isRefreshing = false
                 }
             }
         }
-        // val action = WeekForecastFragmentDirections.actionWeekForecastFragmentToDetailsFragment("asd")
-        // findNavController().navigate(action)
     }
 }

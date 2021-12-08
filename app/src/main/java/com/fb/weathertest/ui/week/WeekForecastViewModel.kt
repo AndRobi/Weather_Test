@@ -16,9 +16,9 @@ class WeekForecastViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val forecast = weatherRepo.forecast.stateIn(viewModelScope, SharingStarted.Lazily, null)
-    fun getWeatherForecast(cord: Cord) {
+    fun getWeatherForecast(cord: Cord, forceRefresh: Boolean = false) {
         viewModelScope.launch(coroutineContext) {
-            weatherRepo.getAllWeatherData(cord)
+            weatherRepo.getAllWeatherData(cord, forceRefresh)
         }
     }
 }
