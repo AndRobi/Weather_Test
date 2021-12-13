@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Időjárás Teszt</string>
+    <string name="enable_gps">Kérlek kapcsold be a GPS-t és inditsad újra</string>
+    <string name="location_permission">Helymeghatározási engedély</string>
+    <string name="access_location_message">Ennek az alkalmazásnak szüksége van helymeghatározási engedély a működéshez</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
+    <string name="exit">Kilépés</string>
+    <string name="retry">Újra</string>
+    <string name="sunrise">Napkelte</string>
+    <string name="sunset">Napnyugta</string>
+    <string name="moonrise">Holdkelte</string>
+    <string name="daily_min">Minimum</string>
+    <string name="daily_max">Maximum</string>
+    <string name="pressure">Légnyomás</string>
+    <string name="humidity">Páratartalom</string>
+    <string name="wind_speed">Szélerősség</string>
+    <string name="ask_for_permission">Az engedélyek beállitásának megpróbálása</string>
+    <string name="gps_required_message">GPS-re szükség van az alkalmazás múködéséhez</string>
+    <string name="n_a">Nem elérhető</string>
+</resources>

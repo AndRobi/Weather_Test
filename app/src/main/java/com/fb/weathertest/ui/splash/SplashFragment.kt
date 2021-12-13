@@ -6,15 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.fb.weathertest.R
 import com.fb.weathertest.databinding.FragmentSplashBinding
+import com.fb.weathertest.ui.activity.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-
+import java.lang.System.exit
+@Suppress("UnusedPrivateMember")
 private const val TAG = "SplashFragment"
 
 @AndroidEntryPoint
 class SplashFragment : Fragment() {
+    companion object {
+        val permissions = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+    }
 
     override fun onStart() {
         super.onStart()
@@ -27,15 +38,20 @@ class SplashFragment : Fragment() {
         val response = map.entries.first()
         val isGranted = response.value
         if (isGranted) { goToMain() } else {
-            requirePermission()
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.location_permission)
+                .setMessage(R.string.access_location_message)
+                .setNegativeButton(R.string.exit) { id, dialog ->
+                    finishAffinity(activity as MainActivity)
+                }
+                .setPositiveButton(R.string.retry) { id, dialog ->
+                    requirePermission()
+                }
+                .show()
         }
     }
 
     private fun requirePermission() {
-        val permissions = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
         permissionRequester.launch(permissions)
     }
 

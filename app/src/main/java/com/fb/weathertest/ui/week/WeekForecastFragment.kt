@@ -15,8 +15,9 @@ import com.fb.weathertest.ui.activity.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
+@Suppress("UnusedPrivateMember")
 private const val TAG = "WeekForecastFragment"
+
 @AndroidEntryPoint
 class WeekForecastFragment : Fragment() {
 
@@ -45,8 +46,7 @@ class WeekForecastFragment : Fragment() {
             day ->
             locationLiveData.value?.let {
                 viewModel.getWeatherForecast(it, true)
-                val action = WeekForecastFragmentDirections.actionWeekForecastFragmentToDetailsFragment(day)
-                findNavController().navigate(action)
+                goToDetails(day)
             }
         }
         binding.refreshLayout.apply {
@@ -70,5 +70,9 @@ class WeekForecastFragment : Fragment() {
                 }
             }
         }
+    }
+    private fun goToDetails(day: Long) {
+        val action = WeekForecastFragmentDirections.actionWeekForecastFragmentToDetailsFragment(day)
+        findNavController().navigate(action)
     }
 }

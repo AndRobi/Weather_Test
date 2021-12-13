@@ -11,6 +11,7 @@ import com.fb.weathertest.util.location.LocationLiveData
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@Suppress("UnusedPrivateMember")
 private const val TAG = "MainActivity"
 
 @AndroidEntryPoint

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
+@Suppress("MagicNumber")
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val weatherRepo: WeatherRepository

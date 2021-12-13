@@ -6,6 +6,7 @@ import com.fb.weathertest.util.DEFAULT_LAT
 import com.fb.weathertest.util.DEFAULT_LON
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.*
 
 interface OpenWeatherApi {
     @GET("onecall")
@@ -13,6 +14,7 @@ interface OpenWeatherApi {
         @Query("lat")latitude: String = DEFAULT_LAT,
         @Query("lon")longitude: String = DEFAULT_LON,
         @Query("units") units: String = "metric",
+        @Query("lang") lang: String = Locale.getDefault().language,
         @Query("appid")apiKey: String = BuildConfig.WEATHER_API_KEY
     ): OneCallResponse
 }

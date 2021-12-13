@@ -14,6 +14,7 @@ import com.google.android.gms.location.SettingsClient
 
 private const val TAG = "GpsControl"
 
+@Suppress("TooGenericExceptionCaught")
 class GpsControl(private val context: Context, private val activity: Activity) {
 
     private val settingsClient: SettingsClient = LocationServices.getSettingsClient(context)
@@ -25,14 +26,14 @@ class GpsControl(private val context: Context, private val activity: Activity) {
         locationSettingsRequest = builder.build()
         builder.setAlwaysShow(true)
     }
-    fun turnGPSOn(OnGpsListener: OnGpsListener?) {
+    fun turnGPSOn(onGpsListener: OnGpsListener?) {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            OnGpsListener?.gpsStatus(true)
+            onGpsListener?.gpsStatus(true)
         } else {
             settingsClient
                 .checkLocationSettings(locationSettingsRequest)
                 .addOnSuccessListener(activity) {
-                    OnGpsListener?.gpsStatus(true)
+                    onGpsListener?.gpsStatus(true)
                 }.addOnFailureListener {
                 }.addOnFailureListener(activity) { exception ->
 
